@@ -1,0 +1,159 @@
+﻿@model Exigent_ViewModels.Admin.UserListDetailViewModel
+
+@{
+    ViewBag.Title = "Two Factor Authentication";
+    Layout = "~/Views/Shared/_LayoutWithoutLogin.cshtml";
+}
+
+@{
+    string styleDisplayValue = "none";
+    string MessageType = "success";
+    if (ViewBag.MessageType != null)
+    {
+        MessageType = ViewBag.MessageType.ToString();
+
+        if (ViewBag.MessageType.ToString() == "" || ViewBag.MessageType.ToString() == null)
+        {
+            styleDisplayValue = "none";
+        }
+        else
+        {
+            styleDisplayValue = "block";
+        }
+    }
+}
+
+
+@section MyScripts {
+    <script type="text/javascript">
+
+
+        var specialKeys = new Array();
+        specialKeys.push(8); //Backspace
+        specialKeys.push(9); //Tab
+        specialKeys.push(46); //Dot
+        //specialKeys.push(32); //Space
+        specialKeys.push(45); //Desh
+        specialKeys.push(42); //Star
+        specialKeys.push(36); //Dollar
+        specialKeys.push(35); //Hash
+        specialKeys.push(95); //Caret(^)
+        specialKeys.push(95); //Under Score
+        specialKeys.push(44); //Coma
+        specialKeys.push(58); //Colon
+        specialKeys.push(59); //Semi Colon
+        specialKeys.push(60); //Less Than
+        specialKeys.push(62); //Greater Than
+        specialKeys.push(47); //Fwd Slash
+        specialKeys.push(92); //back Slash
+
+        $(document).ready(function () {
+            SanitoryInput();
+        });
+
+        function SanitoryInput() {
+            $("input[type='text']").bind("keypress", function (e) {
+                var keyCode = e.which ? e.which : e.keyCode;
+                var ret = ((keyCode == 34) || (keyCode == 32) || (keyCode >= 48 && keyCode <= 57) || (keyCode >= 64 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || specialKeys.indexOf(keyCode) != -1);
+                return ret;
+            });
+
+
+            $("textarea").bind("keypress", function (e) {
+                var keyCode = e.which ? e.which : e.keyCode;
+                var ret = ((keyCode == 32) || (keyCode >= 48 && keyCode <= 57) || (keyCode >= 64 && keyCode <= 90) || (keyCode >= 97 && keyCode <= 122) || specialKeys.indexOf(keyCode) != -1);
+                return ret;
+            });
+
+            $("input[type='text']").focusout(function () {
+                //console.log($(this).data("globalvalidation"));
+                if ($(this).data("globalvalidation") == "undefined ") { //Skip for all fields marked with data attribute 'globalvalidation' to 'false' e.g. ValidationExpression field in customField functionality
+                    $(this).val($(this).val().replace(/[\*\^\'\!\'\~\<\>\$]/g, '')); // removed (:) collon
+                }
+            });
+
+            $("textarea").focusout(function () {
+                $(this).val($(this).val().replace(/[\*\^\'\!\"\'\~\<\>\$]/g, '')); // removed (:) collon
+            });
+        }
+
+    </script>
+}
+
+<body>
+    <nav class="navBg">
+        <div class="forgetLogo"> <img src="~/Content/materialize/images/login-logo.png" /></div>
+    </nav>
+    <div class="container bodyPart">
+        <div class="GridContainer">
+
+            <h1 class="center">
+
+                Two Factor Authentication
+            </h1>
+            <div class="Grid">
+                <p class="center">A mail with a verification code has been sent to your registered email id. Please submit the code to continue.</p>
+                <div class="row">
+                    <div id="divAlert" class="alert-dismissable alert-@MessageType col s12 m8 offset-m2 l6 offset-l3 msgFormatting" style="display:@styleDisplayValue">
+                        <div class="closeBtn"><button type="button" class="closeAlert waves-effect waves-light btn btnSmallCustom-1" data-dismiss="alert">×</button></div>
+                        @Html.ValidationSummary(true)
+                    </div>
+                </div>
+                @using (Html.BeginForm("TwoFactorAuthentication", "Login", FormMethod.Post, new { @id = "twoFactorAuthenticationForm", role = "form" }))
+                {
+                    @Html.HiddenFor(model => Model.id, new { @name = "id" })
+                    @Html.HiddenFor(model => Model.UserName, new { @name = "UserName" })
+                    @Html.HiddenFor(model => Model.PortalType, new { @name = "PortalType" })
+                    @Html.HiddenFor(model => Model.userPwd, new { @name = "userPwd" })
+                    @Html.HiddenFor(model => Model.sessionId, new { @name = "sessionId" })
+                    @Html.HiddenFor(model => Model.rememberMe, new {@name ="rememberMe" })
+                    @Html.HiddenFor(model => Model.Email, new { @name = "emailID" })
+                    var qsDictionary1 = new Dictionary<string, string> 
+                    {
+                        { "emailID",     Model.Email        },
+                        { "userId",     Model.id.ToString() },
+                        { "userName",   Model.UserName      },
+                        { "portalType", Model.PortalType    },
+                        { "rememberMe", Model.rememberMe    },
+                        { "userPwd",    Model.userPwd       },
+                        { "sessionId",  Model.sessionId     }
+                    };
+                    
+                    <div class="row">
+
+                        <div class="input-field col s12 m8 offset-m2 l6 offset-l3 left">
+                            @Html.TextBoxFor(model => model.Verification_Code, new { id = "code", @class = "validate left", tabindex = "1", maxlength = "19" })
+                            <label for="email">Verification Code<span class="required">*</span></label>
+                            <p class="required">@Html.ValidationMessageFor(model => model.Verification_Code)</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m8 offset-m2 l6 offset-l3 left BtnsAlign">
+                            <button class="waves-light btn" type="submit" name="button" id="button" value="Submit" tabindex="2">Submit</button>
+
+                            <a class="waves-light btn " href="@Url.Action("SendVerificationCode", "Login", new { area = "", q = Exigent.Common.Helpers.Crypto.Encrypt(qsDictionary1) })" tabindex="4">Resend verification code</a>
+
+                            <a class="waves-light btn cancelBtn" href="@Url.Action("Index","Login")" tabindex="4">Cancel</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+<!--  Scripts-->
+@*<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/common.js"></script>*@
+@*<script>
+        $(document).ready(function (e) {
+            var isEmailSent = "@Model.isEmailSent"
+            if (isEmailSent != null && (isEmailSent == true || isEmailSent == "True")) {
+
+                $('#passwordReset').fadeOut('fast');
+                $('#successMsg').fadeIn('fast');
+            }
+
+        });
+    </script>*@
+@*<script src="~/Content/materialize/js/materialize.js"></script>*@

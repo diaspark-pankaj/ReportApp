@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "SessionExpired";
+    Layout = "~/Views/Shared/_LayoutWithoutLogin.cshtml";
+}
+<nav class="navBg">
+    <div class="forgetLogo"><img src="~/Content/materialize/images/logo.png" /></div>
+</nav>
+
+<div class="container bodyPart">
+    <div class="GridContainer center-align ">
+        <h1 class="errorHeading">Sorry!</h1>
+        <p class="unexpectederror">
+            @Html.Raw(@Resources.CommonResource.SessionExpired) @Html.ActionLink("Login", "Index", "Login")&nbsp;@Resources.CommonResource.SessionExpired1
+        </p>
+            <!--  <a class="waves-effect waves-light btn btnSmallCustom" href="#">Go Back</a>-->
+</div>
+</div>
+
+
+@section MyScripts
+{
+
+<script type="text/javascript">
+
+    //Disable Back Button In All Browsers.
+    function DisableBackButtonAllBrowsers() {
+        window.history.forward()
+    };
+    DisableBackButtonAllBrowsers();
+    window.onload = DisableBackButtonAllBrowsers;
+    window.onpageshow =
+function (evts) {
+    if (evts.persisted) DisableBackButtonAllBrowsers();
+};
+    window.onunload =
+function () { void (0) };
+</script>
+    }

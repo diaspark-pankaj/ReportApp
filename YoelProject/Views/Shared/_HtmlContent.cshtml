@@ -1,0 +1,62 @@
+﻿
+<img class="buTimeBtn" title="Invoicing Rules" onclick="showRules()" src="~/Content/materialize/images/Invoicing_Rules.png" />
+<div id="menu" class="sm-main"></div>
+
+
+<script>
+
+    function getRuleContents() {
+        var results = "";
+
+        $.ajax({
+            url: "/Main/GetHtmlContent",
+            type: "GET",
+            //dataType: "json",
+            async: false,
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                results = data;
+            }
+        });
+
+        return results;
+    }
+
+    function showRules() {
+        if ($("#RuleBody").html() == "") {
+
+            $("#RuleBody").append("<h3 class='buHeadOverlay'>Invoicing Rules</h3><br>");
+
+            var parser = new DOMParser;
+            var dom = parser.parseFromString(
+                '<!doctype html><body>' + getRuleContents(),
+                'text/html');
+            var decodedString = dom.body.textContent;
+
+            $("#RuleBody").append(decodedString);
+        }
+
+        sideMenu.toggle();
+    }
+
+    $(document).ready(function () {
+
+        sideMenu = new SideMenu([], { overlay: true });
+
+        // Close
+        sideMenu.addItem(
+			new SMButtonItem("X", function () {
+			    sideMenu.close();
+			})
+		);
+
+        // SideMenu object to DOM
+        $(function () {
+            sideMenu.appendTo(document.getElementById('menu'));
+
+            $(".sm-content").append("<div id='RuleBody'></div>");
+        });
+
+    });
+
+</script>

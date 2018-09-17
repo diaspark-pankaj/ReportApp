@@ -1,0 +1,178 @@
+﻿@model IEnumerable<Exigent.ViewModels.Common.AccessDashboardViewModel>
+@using Exigent.Common.Constants
+@using Exigent.Common.Enums
+@{
+    //int[] minimumResolutionWidth = { 320, 360, 540, 600, 640, 768, 992, 900 };
+    var pageUrl = this.Context.Request.RawUrl;
+    var sessionHelper = (ChameleonInformExigent.Helpers.SessionHelper)Session["User"];
+    var userImage = !string.IsNullOrEmpty(sessionHelper.LoggedUserInfo.ThumbImage) ? sessionHelper.LoggedUserInfo.ThumbImage : "/Default_user.jpg";
+    var icount = sessionHelper.LoggedUserInfo.AccessDashboardPages.Any(x => x.ID == sessionHelper.LoggedUserInfo.SelectedDashboardID) ? sessionHelper.LoggedUserInfo.AccessDashboardPages.Where(x => x.ID == sessionHelper.LoggedUserInfo.SelectedDashboardID).LastOrDefault().ID : 0;
+    //var resolutionWindowWidth = this.Context.Request.Browser.ScreenPixelsWidth;
+    var isMobileDevice = this.Context.Request.Browser.IsMobileDevice;
+    string strUserAgent = Request.UserAgent.ToLower();
+    var isMobileRequest = (strUserAgent != null && (strUserAgent.Contains("iphone") || strUserAgent.Contains("ipod") || strUserAgent.Contains("android")) || strUserAgent.Contains("ipad")) ? true : false;
+}
+
+<div class="nav-wrapper clearfix">
+    <div class="userInformation valign-wrapper">
+        <!--Call below image in case No Image-->
+        <!--<img class="valign userIcon" src="images/user.png">-->
+        <!--else-->
+        <img class="valign userIcon" src="@Url.Content("/Images/UserImage/" + userImage)">
+        <span class="valign">@sessionHelper.LoggedUserInfo.UserName</span>
+        <div class="optionsUser z-depth-1 shadow-demo">
+            <a href="/Home/MyProfile"><img class="absMiddle" src="~/Content/materialize/images/user-icon.png" alt="">Profile</a>
+            <a href="~/Login/LogOut"><img class="absMiddle" src="~/Content/materialize/images/logout-icon.png" alt="">Logout</a>
+        </div>
+    </div>
+    <div class="burgerNavigation">
+        <a class="dropdown-button menuNav" href="javascript:void(0)"><img src="~/Content/materialize/images/burger-nav.png" alt=""></a>
+        <!-- Dropdown Structure -->
+        <ul id="dropdown1" class="dropdown-content Customized menuOpen">
+            @if (sessionHelper.LoggedUserInfo.SelectedDashboardID != (int)UserAccessEnum.VendorDashboard)
+            {
+
+                foreach (var item in Model.OrderBy(x => x.SortOrder))
+                {
+
+                    // logic added to render HOD dashboard only to HOD type user having Group Legal role.
+                    if (item.ID == (int)UserAccessEnum.HODDashboard)
+                    {
+                        //if (sessionHelper.LoggedUserInfo.UserTypeId == (int)UserTypes.HOD)
+                        if (sessionHelper.LoggedUserInfo.AccessDashboardPages.Any(x => x.ID == (int)UserAccessEnum.HODDashboard))
+                        {
+                            <li>
+                                <a href="/@item.DashboardURL">
+                                    @item.Description
+                                </a>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="/@item.DashboardURL">
+                                @item.Description
+                            </a>
+                        </li>
+                    }
+
+                }
+
+                foreach (var item in Model.Where(x => x.AcessDashboardPages.Any(y => y.IsDropdown == true)))
+                {
+                    foreach (var page in item.AcessDashboardPages.Where(y => y.IsDropdown == true).OrderBy(x => x.SortOrder))
+                    {
+                        if (sessionHelper.LoggedUserInfo.Roles.Any(x => x.Id == (int)SystemTypeEnum.ServiceProviderAdmin || x.Id == (int)SystemTypeEnum.SuperGroupLegal))
+                        {
+                            if (page.ID == (int)AccessDashboardsPagesEnum.HODDashboard)
+                            {
+                                if (sessionHelper.LoggedUserInfo.AccessDashboardPages.Any(x => x.ID == (int)UserAccessEnum.HODDashboard))
+                                {
+                                    <li>
+                                        <a href="@page.PageURL" class='@pageUrl.Contains(page.PageURL)?"active":""'>
+                                            @page.Name
+                                        </a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                if (sessionHelper.LoggedUserInfo.Roles.Any(x => x.Id == (int)SystemTypeEnum.ServiceProviderAdmin))
+                                {
+
+                                    <li>
+                                        <a href="@page.PageURL" class='@pageUrl.Contains(page.PageURL)?"active":""'>
+                                            @page.Name
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+
+                                    if (page.ID != (int)AccessDashboardsPagesEnum.ManageMastersIsDropdown && page.ID != (int)AccessDashboardsPagesEnum.RoleManagementIsDropdown)
+                                    {
+                                        <li>
+                                            <a href="@page.PageURL" class='@pageUrl.Contains(page.PageURL)?"active":""'>
+                                                @page.Name
+                                            </a>
+                                        </li>
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                // load main menu on low resolution...(mobile/pad) device
+                if (this.Context.Request.Browser.IsMobileDevice || isMobileRequest)
+                {
+                    if (Model.Any(x => x.AcessDashboardPages.Any(y => y.DashboardID == sessionHelper.LoggedUserInfo.SelectedDashboardID)))
+                    {
+                        foreach (var item in Model.Where(x => x.AcessDashboardPages.Any(y => y.IsDropdown == false)))
+                        {
+
+                            foreach (var page in item.AcessDashboardPages.Where(x => x.DashboardID == sessionHelper.LoggedUserInfo.SelectedDashboardID).OrderBy(x => x.SortOrder))
+                            {
+                                var isMobileMenuClass = (page.ID == (int)AccessDashboardsPagesEnum.MainDashboard || page.ID == (int)AccessDashboardsPagesEnum.AdminDashboard) ? "mobileHide" : "mobileShow";
+                                //var isMobileMenuDivider = !page.Name.Equals("Main Dashboard") ? true : false;
+                                if (!page.IsDropdown)
+                                {
+                                    if (sessionHelper.LoggedUserInfo.Roles.Any(x => x.Id == (int)SystemTypeEnum.LegalProfessionalStaff))
+                                    {
+                                        if (page.ID != (int)AccessDashboardsPagesEnum.Reports && page.ID != (int)AccessDashboardsPagesEnum.HODDashboard && page.ID != (int)AccessDashboardsPagesEnum.ReportableMatters)
+                                        {
+                                            <li class="@isMobileMenuClass"> <a href="@page.PageURL">@page.Name</a></li>
+                                        }
+                                    }
+                                    else if (sessionHelper.LoggedUserInfo.Roles.Any(x => x.Id == (int)SystemTypeEnum.LegalAdminStaff && x.Id == (int)SystemTypeEnum.SpecialGroupLegal))
+                                    {
+                                        <li class="@isMobileMenuClass"> <a href="@page.PageURL">@page.Name</a></li>
+                                    }
+                                    else
+                                    {
+                                        var name = page.ID == (int)AccessDashboardsPagesEnum.HODDashboard && sessionHelper.LoggedUserInfo.Roles.Any(x => x.Id != (int)SystemTypeEnum.ServiceProviderAdmin && x.Id != (int)SystemTypeEnum.SuperGroupLegal) ? "HOD Dashboard" : page.Name;
+                                        <li class="@isMobileMenuClass"> <a href="@page.PageURL">@name</a></li>
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+            }
+        </ul>
+    </div>
+    <div class="logoContainer"> <a href="#" class="logo"><img src="~/Content/materialize/images/logo.png"></a> </div>
+    <div class="navigation">
+        @if (Model.Any(x => x.AcessDashboardPages.Any(y => y.DashboardID == sessionHelper.LoggedUserInfo.SelectedDashboardID)))
+        {
+            foreach (var page in Model.FirstOrDefault(x => x.ID == sessionHelper.LoggedUserInfo.SelectedDashboardID).AcessDashboardPages)
+            {
+                if (sessionHelper.LoggedUserInfo.Roles.Any(x => x.Id == (int)SystemTypeEnum.LegalProfessionalStaff))
+                {
+                    if (!page.IsDropdown && page.ID != (int)AccessDashboardsPagesEnum.Reports && page.ID != (int)AccessDashboardsPagesEnum.HODDashboard && page.ID != (int)AccessDashboardsPagesEnum.ReportableMatters)
+                    {
+                        <a href="@page.PageURL">@page.Name</a>
+                    }
+                }
+                else if (sessionHelper.LoggedUserInfo.Roles.Any(x => x.Id == (int)SystemTypeEnum.LegalAdminStaff || x.Id == (int)SystemTypeEnum.SpecialGroupLegal))
+                {
+                    <a href="@page.PageURL">@page.Name</a>
+                }
+                else
+                {
+                    if (!page.IsDropdown)
+                    {
+                        var name = page.ID == (int)AccessDashboardsPagesEnum.HODDashboard && sessionHelper.LoggedUserInfo.Roles.Any(x => x.Id != (int)SystemTypeEnum.ServiceProviderAdmin && x.Id != (int)SystemTypeEnum.SuperGroupLegal) ? "HOD Dashboard" : page.Name;
+                        <a href="@page.PageURL">@name</a>
+                    }
+                }
+            }
+        }
+        @*}*@
+    </div>
+</div>

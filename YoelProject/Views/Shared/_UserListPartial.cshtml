@@ -1,0 +1,85 @@
+﻿@model Exigent_ViewModels.Admin.UserListViewModel
+<table class="bordered highlight" id="mytable">
+    <tbody>
+        @if (Model.UsersList.Count > 0)
+		{
+			var sessionHelper = (ChameleonInformExigent.Helpers.SessionHelper)Session["user"];
+			foreach (Exigent_ViewModels.Admin.UserListDetailViewModel User in Model.UsersList)
+			{
+				//var UserType = Exigent.Common.Helpers.EnumHelper<Exigent.Common.Enums.UserTypes>.GetEnumDescription(((Exigent.Common.Enums.UserTypes)User.EntityId).ToString());
+				//QueryString
+				var qsDictionary = new Dictionary<string, string>
+									{
+										{"userId", User.id.ToString()},
+										{ "AuthUID", sessionHelper.LoggedUserInfo.UserId.ToString()}
+									};
+
+
+        <tr>
+            <td data-title="Full Name" class="userListFN truncate">
+                <a href="@Url.Action("EditUser", "User", new { q = Exigent.Common.Helpers.Crypto.Encrypt(qsDictionary) })" title="Detail" class="lnk-typ1 text-decoration">@User.FullName</a>
+                @*@if (ViewBag.CanEdit)
+            {
+                <a href="@Url.Action("EditUser", "User", new { userId = User.id })" title="Detail">@User.FirstName</a>
+            }
+            else
+            {
+                @User.FirstName
+            }*@
+
+            </td>
+
+            <td data-title="@Resources.UserResource.UserName" class="userListUN truncate">
+                @User.UserName
+            </td>
+            <td data-title="@Resources.UserResource.Email" class="userListEmail truncate">
+                @User.Email
+            </td>
+            <td data-title="Office" class="userListOffice truncate">
+                @User.OfficeName
+            </td>
+            <td data-title="User Type" class="userListUT truncate">
+
+                @User.UserType
+
+            </td>
+            <td data-title="IsActive" class="userListIA truncate">
+
+                @if (User.IsActive)
+        {
+            <span>Active</span>
+}
+else
+{ <span>InActive</span>
+}
+            </td>
+            <td data-title="@Resources.UserResource.Action" class="userListAct truncate">
+                <div class="iconAlign">
+                    <a href="@Url.Action("EditUser", "User", new { q = Exigent.Common.Helpers.Crypto.Encrypt(qsDictionary) })" title="Edit" tabindex="4"><span class="editBtn"></span></a>
+                    @*@if (ViewBag.CanEdit)
+                {
+                    <a href="@Url.Action("EditUser", "User", new { userId = User.id })" title="Edit" class="icon ico-edit mrg10-R">Edit</a>
+                }*@
+                    <a href="@Url.Action("ResetUser", "User", new { q = Exigent.Common.Helpers.Crypto.Encrypt(qsDictionary) })" title="Reset User" tabindex="5"><span class="resetBtn"></span></a>
+                </div>
+            </td>
+        </tr>
+            }
+        }
+        else
+        {
+            <tr class="row">
+                <td colspan="5" class="text-center">
+                    @if (Model.RecordCount <= 0)
+                    {
+                        @Resources.UserResource.NoRecordExists
+                    }
+                    else
+                    {
+                        @Html.Raw(Exigent.Common.Constants.VarConstants.NoMoreRecord)
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

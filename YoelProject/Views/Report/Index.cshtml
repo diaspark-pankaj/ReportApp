@@ -1,0 +1,69 @@
+﻿@using YoelProject.Common.Helper;
+@model YoelProject.ViewModel.Reports.ReportViewModel
+
+@{
+    ViewBag.Title = "Report";
+}
+
+@using (Html.BeginForm("Index", "Report", FormMethod.Post, new { @id = "Report", role = "form", @class = "mrg10-B" }))
+{
+    @Html.HiddenFor(x => x.ReportId)
+    <h2>@Model.Name</h2>
+
+    if (Model.ParameterList.Any())
+    {
+        <div>
+            @*@foreach (var item in Model.ParameterList)
+                {
+
+                    @item.ColumnLable <input type="text" id="@item.ColumnName" /> <br /> <br />
+                }*@
+            @for (int i = 0; i < Model.ParameterList.Count; i++)
+            {
+                @Model.ParameterList[i].ColumnLable @*<input type="text" id="@Model.ParameterList[i].ColumnName" />*@
+                @Html.TextBoxFor(x => Model.ParameterList[i].Value, new { @id = Model.ParameterList[i].ColumnName, @name = Model.ParameterList[i].ColumnName }) <br /> <br />
+                @Html.ValidationMessageFor(x => Model.ParameterList[i].ValidationMsg)
+                @Html.HiddenFor(x => Model.ParameterList[i].ColumnName)
+                @Html.HiddenFor(x => Model.ParameterList[i].Value)
+                @Html.HiddenFor(x => Model.ParameterList[i].IsRequired)
+            }
+            <input type="submit" value="Search Report" />
+        </div>
+    }
+}
+
+<div>
+    @{
+        if (Model.GridRowsList != null && Model.GridColumnList != null && Model.GridRowsList.Any() && Model.GridColumnList.Any())
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        @foreach (var columns in Model.GridColumnList)
+                        {
+                            <th>@columns</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var rows in Model.GridRowsList.ToList())
+                    {
+                        var nameOfProperty = "AuditId";
+                        var propertyInfo = rows.GetType().GetProperty(nameOfProperty);
+                        var value = propertyInfo.GetValue(rows, null);
+                        <tr>
+                            @foreach (var columns in Model.GridColumnList)
+                            {
+                                var abc = rows + "." + columns;
+                                @*<td>@rows.columns</td>*@                               
+                            <td>@abc</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+
+</div>

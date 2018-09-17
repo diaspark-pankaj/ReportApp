@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoelProject", "YoelProject\YoelProject.csproj", "{9046B93E-FB74-4B81-B7BE-C5D5C19EEBFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoelProject.BAL", "YoelProject.BAL\YoelProject.BAL.csproj", "{C6018A2E-05ED-4210-BDF9-6C03DB101994}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoelProject.DAL", "YoelProject.DAL\YoelProject.DAL.csproj", "{35AA4B8B-1FE2-4F7C-881D-1245652084E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoelProject.ViewModel", "YoelProject.ViewModel\YoelProject.ViewModel.csproj", "{0ADDCF89-1B93-4318-B357-5ED3452F709C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoelProject.Common", "YoelProject.Common\YoelProject.Common.csproj", "{CF8FE4C1-06CF-481F-ABFA-762F2AFA5656}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoelProject.Models", "YoelProject.Models\YoelProject.Models.csproj", "{6EC96D22-96E2-4AD9-98BA-EA3988EEF538}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9046B93E-FB74-4B81-B7BE-C5D5C19EEBFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9046B93E-FB74-4B81-B7BE-C5D5C19EEBFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9046B93E-FB74-4B81-B7BE-C5D5C19EEBFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9046B93E-FB74-4B81-B7BE-C5D5C19EEBFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6018A2E-05ED-4210-BDF9-6C03DB101994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6018A2E-05ED-4210-BDF9-6C03DB101994}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6018A2E-05ED-4210-BDF9-6C03DB101994}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6018A2E-05ED-4210-BDF9-6C03DB101994}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35AA4B8B-1FE2-4F7C-881D-1245652084E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35AA4B8B-1FE2-4F7C-881D-1245652084E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35AA4B8B-1FE2-4F7C-881D-1245652084E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35AA4B8B-1FE2-4F7C-881D-1245652084E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ADDCF89-1B93-4318-B357-5ED3452F709C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ADDCF89-1B93-4318-B357-5ED3452F709C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ADDCF89-1B93-4318-B357-5ED3452F709C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ADDCF89-1B93-4318-B357-5ED3452F709C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF8FE4C1-06CF-481F-ABFA-762F2AFA5656}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF8FE4C1-06CF-481F-ABFA-762F2AFA5656}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF8FE4C1-06CF-481F-ABFA-762F2AFA5656}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF8FE4C1-06CF-481F-ABFA-762F2AFA5656}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EC96D22-96E2-4AD9-98BA-EA3988EEF538}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EC96D22-96E2-4AD9-98BA-EA3988EEF538}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EC96D22-96E2-4AD9-98BA-EA3988EEF538}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EC96D22-96E2-4AD9-98BA-EA3988EEF538}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F95B964C-F99E-4A82-BD1E-8EFEBE9B0C6A}
+	EndGlobalSection
+EndGlobal

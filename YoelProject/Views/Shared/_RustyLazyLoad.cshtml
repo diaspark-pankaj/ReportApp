@@ -1,0 +1,82 @@
+﻿@using System.Text
+
+@model Exigent_ViewModels.RustyLazyLoadViewModel
+@{
+    var containerId = Model.ContainerId;
+    var ajaxLoadContainerId = string.Format("{0}Load", containerId);
+    var parentcontainerId = "";
+    if (Model.ParentContainerId != null && Model.ParentContainerId != "")
+    {
+        parentcontainerId = Model.ParentContainerId;
+    }
+    else
+    {
+        parentcontainerId = "parentContainerId";
+    }
+    // Convert parameters to JSON
+    var sbParameters = new StringBuilder();
+    if (Model.Parameters != null && Model.Parameters.Any())
+    {
+        foreach (var parameter in Model.Parameters)
+        {
+            sbParameters.AppendFormat("\"{0}\": \"{1}\", ", parameter.Key, parameter.Value);
+        }
+    }
+    var parameters = sbParameters.ToString();
+    // Remove trailing ', ' from parameters
+    if (!string.IsNullOrWhiteSpace(parameters))
+    {
+        parameters = parameters.Substring(0, parameters.Length - 2);
+    }
+}
+<div id="@parentcontainerId" class="inner_table fix-table-js phone-height gvProjects no-more-tables exigentGrid">
+    <div id="@containerId">
+
+    </div>
+    <div id="@ajaxLoadContainerId" class="gvProjects tbl-typ2 width100">
+
+    </div>
+</div>
+
+
+
+
+<div class="text-center mrg30-B">
+    @Html.Hidden("Hdnid")
+    @Html.Hidden("hdnMultiple")
+    @*@Html.HiddenFor(model => model.UserProjectsList[0].Id, new { id = "Hdnid" })*@
+    @*<a id="btnCompare" title="@Resources.HomeResource.CompareSelectedProjectsToolTip">@Resources.HomeResource.CompareSelectedProjects</a>*@
+    @*<input type="button" id="btnCompare" class="btn btn-default mrg5-B mrg5-LR " title="@Resources.HomeResource.CompareSelectedProjectsToolTip" value="@Resources.HomeResource.CompareSelectedProjects" />
+        <input id="btnDelete" type="button" class="btn btn-default mrg5-B mrg5-LR" value="Delete" />*@
+    @*@Html.ActionLink(Resources.DoorExteriorResource.btnDeleteText, "DeleteUserProject", "Home", new { area = "Home", unitId = @Model.UserProjectsList[0].Id }, new { id = "btnDelete", @class = "btn btn-default mrg5-B mrg5-LR", formnovalidate = "formnovalidate" })*@
+</div>
+
+
+@*<script src="@Url.Content("~/Scripts/jquery-2.1.0.js")"></script>*@
+
+<script type="text/javascript">
+    var NoMore='@Exigent.Common.Constants.VarConstants.NoMoreRecord';
+    var NoRecord=' @Resources.UserResource.NoRecordExists';
+    $(document).ready(function () {
+
+        var limit = @Model.Limit;
+        var fromRowNumber = @Model.FromRowNumber;
+        var sortColumn="@Model.SortColumn";
+        var sortDirection="";
+        var containerId = '@string.Format("#{0}", @containerId)';
+        var parentContainerId = '@string.Format("#{0}", @parentcontainerId)'; //'#parentContainerId';
+        var ajaxLoadContainerId = '@string.Format("#{0}", @ajaxLoadContainerId)';
+        var ajaxActionUrl = '@Model.AjaxActionUrl';
+        var parameters = { limit: limit, fromRowNumber: fromRowNumber,sortcolumn:sortColumn,sortdirection:sortDirection, @Html.Raw(parameters) };
+
+        var lazyLoad = new LazyLoad(containerId);
+        lazyLoad.init({
+            containerId: containerId,
+            parentContainerId: parentContainerId,
+            ajaxLoadContainerId: ajaxLoadContainerId,
+            ajaxActionUrl: ajaxActionUrl,
+            parameters: parameters
+        });
+    });
+
+</script>

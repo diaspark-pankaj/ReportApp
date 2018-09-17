@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "SessionExpired"; 
+    Layout = "~/Views/Shared/_LayoutWithoutLogin.cshtml";
+}
+
+<div class="container">
+    <div class="mrg80-B"></div>
+
+    <div id="sessionTimeOut" class="row">
+        <div class="col-md-2 col-sm-3">
+            <div class="text-center"><img src="@Url.Content("~/Images/Layout/ico-warnning.png")" alt="Warnning icon" /></div>
+        </div>
+        <div class="col-md-10 col-sm-9">
+            <div class="pd10-LR">
+                <div class="f-maroon fs30 f-proxima-B pd5-T">@Html.Raw(@Resources.CommonResource.SessionExpired) @Html.ActionLink("Login", "Index", "Login", new { @returnUrl = HttpContext.Current.Request.QueryString["returnUrl"] != null ? HttpContext.Current.Request.QueryString["returnUrl"] : "" }, new { @class = "test" })&nbsp;@Resources.CommonResource.SessionExpired1</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mrg80-B"></div>
+
+</div>
+@section MyScripts
+{
+
+    <script type="text/javascript">
+
+        //Disable Back Button In All Browsers.
+        function DisableBackButtonAllBrowsers() {
+            window.history.forward()
+        };
+        DisableBackButtonAllBrowsers();
+        window.onload = DisableBackButtonAllBrowsers;
+        window.onpageshow =
+    function (evts) {
+        if (evts.persisted) DisableBackButtonAllBrowsers();
+    };
+        window.onunload =
+    function () { void (0) };
+    </script>
+}

@@ -1,0 +1,29 @@
+﻿@{
+    var keyword = Session["siteKeyword"] != null ? Convert.ToString(Session["siteKeyword"]) : string.Empty;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Report App</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/Content/Admin/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/Admin/css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="~/Content/Admin/css/maruti-login.css" />
+</head>
+<body>
+    @*<div id="logo">
+        <img src="img/login-logo.png" alt="" />
+    </div>*@
+    <div id="loginbox">
+        @RenderBody()
+    </div>
+
+    <script src="~/Content/Admin/js/jquery.min.js"></script>
+    <script src="~/Content/Admin/js/maruti.login.js"></script>
+</body>
+
+</html>
+

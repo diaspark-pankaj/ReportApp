@@ -1,0 +1,5 @@
+D:\SamarSir Project\NewProject\YoelProject\YoelProject.Common\bin\Debug\YoelProject.Common.dll
+D:\SamarSir Project\NewProject\YoelProject\YoelProject.Common\bin\Debug\YoelProject.Common.pdb
+D:\SamarSir Project\NewProject\YoelProject\YoelProject.Common\obj\Debug\YoelProject.Common.csproj.CoreCompileInputs.cache
+D:\SamarSir Project\NewProject\YoelProject\YoelProject.Common\obj\Debug\YoelProject.Common.dll
+D:\SamarSir Project\NewProject\YoelProject\YoelProject.Common\obj\Debug\YoelProject.Common.pdb

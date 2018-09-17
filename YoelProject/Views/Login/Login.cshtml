@@ -1,0 +1,124 @@
+﻿@model Exigent_ViewModels.Admin.LoginViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+@{
+    string styleDisplayValue = "none";
+    string MessageType = "success";
+    if (ViewBag.MessageType != null)
+    {
+        MessageType = ViewBag.MessageType.ToString();
+
+        if (ViewBag.MessageType.ToString() == "" || ViewBag.MessageType.ToString() == null)
+        {
+            styleDisplayValue = "none";
+        }
+        else
+        {
+            styleDisplayValue = "block";
+        }
+    }
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.AlertMessage))
+{
+    <script>alert("@ViewBag.AlertMessage");</script>
+}
+
+@section MyScripts
+{
+    <script type="text/javascript">
+
+        //Disable Back Button In All Browsers.
+        //    function DisableBackButtonAllBrowsers() {
+        //        window.history.forward()
+        //    };
+        //    DisableBackButtonAllBrowsers();
+        //    window.onload = DisableBackButtonAllBrowsers;
+        //    window.onpageshow =
+        //function (evts) {
+        //    if (evts.persisted) DisableBackButtonAllBrowsers();
+        //};
+        //    window.onunload =
+        //function () { void (0) };
+    </script>
+
+    <script type="text/javascript">
+        // please note, that IE11 now returns true for window.chrome
+        var isChromium = window.chrome,
+            vendorName = window.navigator.vendor;
+
+
+        if (isChromium !== null && vendorName === "Google Inc.") {
+            history.pushState({ page: 1 }, "title 1", "#nbb");
+            window.onhashchange = function (event) {
+                window.location.hash = "nbb";
+            }
+
+        } else {
+            window.location.hash = "";
+            window.location.hash = "";//again because google chrome don't insert first hash into history
+            window.onhashchange = function () { window.location.hash = ""; }
+        }
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+                    $.ajax({
+                    url: '@Url.Action("SaveAuditForLoginPage", "Login")',
+                    type: 'GET',
+
+                    data: { CustomMessage: '@ViewBag.Title', PageURL: '@ViewContext.RouteData.Values["controller"].ToString()' + '/' + '@ViewContext.RouteData.Values["action"].ToString()',email:$(".form-control").val() },
+
+                });
+
+
+        })
+    </script>
+
+}
+
+
+<!--Welcome box started -->
+<section>
+    <div class="jumbotron first-container">
+        <div class="container pd0 text-center">
+
+            <div class="pd10-LR mrg20-B">
+                <div class="fs40 f-maroon f-proxima-B">@Resources.LoginResource.ExigentHeader1</div>
+                <p class="fs16">
+                    @*Fusce egestas molestie tempor. Donec in nulla fringilla, tristique eros et, mollis nulla.
+                        Nam facilisis tincidunt tortor sed mattis. Suspendisse potenti. Proin gravida metus dui, ac faucibus nunc laoreet vel. Donec hendrerit sagittis pellentesque. Aliquam porttitor sed diam vel sollicitudin.*@
+                    @*Please Enter Your System Credentials to Log-In*@
+                    @Resources.LoginResource.Login
+                </p>
+            </div>
+        </div>
+
+        <div class="container mrg20-B">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1">
+                    <div class="pd10-LR">
+
+                        <div class="alert alert-dismissable alert-@MessageType" style="display:@styleDisplayValue">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            @Html.ValidationSummary(true)
+                        </div>
+                        @Html.Partial("_LoginSectionPartial", Model)
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="container ">
+            <div class="row">          
+
+               
+            </div>
+        </div>
+    </div>
+</section>
+<!--section box end -->

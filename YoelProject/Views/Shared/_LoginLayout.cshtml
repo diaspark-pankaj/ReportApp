@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewBag.Title - Chameleon Inform Exigent</title>
+    @Styles.Render("~/content/css/Layoutcss")
+    @RenderSection("MyCss", required: false)
+</head>
+<body>
+    <div class="wrapper-index">
+        <!--Top bar started -->
+        <header>
+            <div class="topbarbg jumbotron pd0">
+                <div class="topbar text-center pd5-TB">
+                    <h1 class="logo"><img src="@Url.Content("~/Images/Layout/GiGi/logo.png") " alt=" yum!" /></h1>
+                </div>
+            </div>
+        </header>
+        <!--Top bar end -->
+        <!--section box started -->
+        <section>
+            @RenderBody()
+        </section>
+        <!--section end -->
+    </div>
+    <!--footer started -->
+    <footer>
+        <div class="footer">
+            <div class="text-center">
+                <div class="mrg2-B"><img src="@Url.Content("~/Images/Layout/ft-brand-logo.png")" alt="Exigent logo" /></div>
+                @Html.Raw(@Resources.LayoutResource.Footer)
+                <input type="hidden" value="hdnSessionTimeOut" /> @*Don't delete this hidden field as it is using in session time out functionality.*@
+            </div>
+        </div>
+    </footer>
+    <!--footer end -->
+    <script src="@Url.Content("~/Scripts/jquery-2.1.0.js")"></script>
+    @Scripts.Render("~/Scripts/LayoutJS")
+    <script src="@Url.Content("~/Scripts/global.js")"></script>
+    <script type="text/javascript">
+        $("input[type='text']").bind("paste", function (e) {
+            //return false;
+        });
+        $("input[type='text']").bind("drop", function (e) {
+            return false;
+        });
+
+        $("input[type='password']").bind("paste", function (e) {
+            //return false;
+        });
+        $("input[type='password']").bind("drop", function (e) {
+            return false;
+        });
+    </script>
+    @RenderSection("MyScripts", required: false)
+</body>
+</html>
+
+

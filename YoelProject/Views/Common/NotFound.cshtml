@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "NotFound";
+    Layout = "~/Views/Shared/_LayoutWithoutLogin.cshtml";
+}
+
+@section MyScripts{
+
+    <script type="text/javascript">
+
+        function ShowMessage() {
+            $("#exceptionMessage").css("display", "block");
+        }
+
+    </script>
+
+}
+@Html.Partial("_Error404");
+

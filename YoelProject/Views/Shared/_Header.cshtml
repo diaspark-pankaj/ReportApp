@@ -1,0 +1,12 @@
+﻿@using System.Configuration
+@using ChameleonInformExigent.Helpers
+
+@{
+    var sessionHelper = (SessionHelper)Session["User"];
+    int _maxiSizeOfAnyDimensionOfThumbnailImage = Convert.ToInt16(ConfigurationManager.AppSettings["MaxiSizeOfAnyDimensionOfThumbnailImage"]);
+}
+@using Exigent.Common.Enums
+
+<nav class="navBg">  
+  @Html.Partial("_menuPartial", sessionHelper.LoggedUserInfo.AccessDashboardPages)
+</nav>

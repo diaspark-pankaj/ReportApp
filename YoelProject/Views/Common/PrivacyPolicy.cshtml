@@ -1,0 +1,53 @@
+﻿@using ChameleonInformExigent.Helpers
+@{
+    ViewBag.Title = "Privacy Policy";
+    var sessionHelper = (SessionHelper)Session["User"];
+    string layout = "";
+    if (sessionHelper == null)
+    {
+        layout = "~/Views/Shared/_LayoutWithoutLogin.cshtml";
+    }
+    else
+    {
+        layout = "~/Views/Shared/_Layout.cshtml";
+    }
+ 
+    Layout = layout;
+ 
+}
+
+<div class="wrapper-index">
+    <!--section started -->
+    <section>
+        <div>
+            <div class="container">
+                <div class="mrg80-B"></div>
+
+                <div class="row">
+                    <div class="col-md-2 col-sm-3">
+                        <div class="text-center"><img src="/images/Layout/ico-warnning.png" alt="Warnning icon" /></div>
+                    </div>
+                    <div class="col-md-10 col-sm-9">
+                        <div class="pd10-LR">
+                            <div class="f-maroon fs30 f-proxima-B pd5-T">@Html.Raw(@Resources.CommonResource.UnderConstruction)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div>
+                        <input onclick="history.go(-1);" class="btn btn-default" type="button" value=@Resources.CommonResource.Back>
+                    </div>
+                </div>
+                <div class="mrg80-B"></div>
+
+            </div>
+
+
+        </div>
+    </section>
+    <!--section box end -->
+
+</div>
+
+
+

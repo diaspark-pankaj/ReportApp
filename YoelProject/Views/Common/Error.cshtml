@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Unexpected Error";
+    Layout = "~/Views/Shared/_LayoutWithoutLogin.cshtml";
+}
+
+@*@section MyScripts{
+
+    <script type="text/javascript">
+
+        function ShowMessage() {
+            $("#exceptionMessage").css("display", "block");
+        }
+
+    </script>
+
+}*@
+    @Html.Partial("_Error500");
+<style>
+    .bodyPart {
+        min-height: 0 !important;
+        padding-bottom: 0px;
+    }
+    .padBot30
+    {
+        padding-bottom:50px;
+    }
+</style>
+ <div>
+     <h2 class="center">Error Description </h2>
+ </div>      
+<div id="exceptionMessage" class="row padBot30">
+    <div class="col s12 m6 l6 offset-m3 offset-l3">
+        @ViewBag.ExceptionMessage
+    </div>
+</div>
+
+
+
