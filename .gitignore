@@ -3,3 +3,15 @@
 /YoelProject.BAL/bin
 /YoelProject.BAL/obj
 /YoelProject.Common/bin
+*.dll
+obj
+*.xml
+*.config
+*.pdb
+*.cache
+*.cs
+*.CopyComplete
+*.txt
+*.targets
+*.exe
+*.rsp
