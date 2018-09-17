@@ -17,7 +17,7 @@ namespace YoelProject.Areas.Admin.Controllers
         {
             return View();
         }
-        public ActionResult AddUser()
+        public ActionResult AddUser1()
         {
             return View();
         }
